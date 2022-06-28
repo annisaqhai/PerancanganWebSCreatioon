@@ -1,3 +1,35 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['log'])){
+	
+} else {
+	header('location:index.php');
+};
+include 'dbconnect.php';
+date_default_timezone_set("Asia/Bangkok");
+$timenow = date("j-F-Y-h:i:s A");
+
+	if(isset($_POST['login']))
+	{
+	$email = mysqli_real_escape_string($conn,$_POST['email']);
+	$pass = mysqli_real_escape_string($conn,$_POST['pass']);
+	$queryuser = mysqli_query($conn,"SELECT * FROM login WHERE email='$email'");
+	$cariuser = mysqli_fetch_assoc($queryuser);
+		
+		if( password_verify($pass, $cariuser['password']) ) {
+			$_SESSION['id'] = $cariuser['userid'];
+			$_SESSION['role'] = $cariuser['role'];
+			$_SESSION['notelp'] = $cariuser['notelp'];
+			$_SESSION['name'] = $cariuser['namalengkap'];
+			$_SESSION['log'] = "Logged";
+			header('location:index.php');
+		} else {
+			echo 'Username atau password salah';
+			header("location:login.php");
+		}		
+	}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -108,10 +140,16 @@
 													<ul class="multi-column-dropdown">
 														<h6>Kategori</h6>
 														
-														
-														<li><a href="kategori.php?idkategori="></a></li>
+														<?php 
+														$kat=mysqli_query($conn,"SELECT * from kategori order by idkategori ASC");
+														while($p=mysqli_fetch_array($kat)){
+
+															?>
+														<li><a href="kategori.php?idkategori=<?php echo $p['idkategori'] ?>"><?php echo $p['namakategori'] ?></a></li>
 																				
-													
+														<?php
+																	}
+														?>
 													</ul>
 												</div>	
 												
