@@ -1,4 +1,8 @@
+<?php
+session_start();
+include 'dbconnect.php';
 
+?>
 
 <!DOCTYPE html>
 <html>
@@ -39,16 +43,35 @@
 <!-- header -->
 	<div class="agileits_header">
 		<div class="container">
-		<div class="w3l_offers">
-				<p>DAPATKAN PENAWARAN MENARIK KHUSUS HARI INI, <a href="products.html">BELANJA SEKARANG!</a></p>
+			<div class="w3l_offers">
+				<p>DAPATKAN PENAWARAN MENARIK KHUSUS HARI INI,<a href="products.html"> BELANJA SEKARANG!<a></p>
 			</div>
 			<div class="agile-login">
 				<ul>
-
+				<?php
+				if(!isset($_SESSION['log'])){
+					echo '
 					<li><a href="registered.php"> Daftar</a></li>
 					<li><a href="login.php">Masuk</a></li>
+					';
+				} else {
 					
-				
+					if($_SESSION['role']=='Member'){
+					echo '
+					<li style="color:white">Halo, '.$_SESSION["name"].'
+					<li><a href="logout.php">Keluar?</a></li>
+					';
+					} else {
+					echo '
+					<li style="color:white">Halo, '.$_SESSION["name"].'
+					<li><a href="admin">Admin Panel</a></li>
+					<li><a href="logout.php">Keluar?</a></li>
+					';
+					};
+					
+				}
+				?>
+					
 				</ul>
 			</div>
 			<div class="product_list_header">  
@@ -108,10 +131,16 @@
 													<ul class="multi-column-dropdown">
 														<h6>Kategori</h6>
 														
-													
-														<li><a href="kategori.php?idkategori="></a></li>
+														<?php 
+														$kat=mysqli_query($conn,"SELECT * from kategori order by idkategori ASC");
+														while($p=mysqli_fetch_array($kat)){
+
+															?>
+														<li><a href="kategori.php?idkategori=<?php echo $p['idkategori'] ?>"><?php echo $p['namakategori'] ?></a></li>
 																				
-														
+														<?php
+																	}
+														?>
 													</ul>
 												</div>	
 												
@@ -152,12 +181,23 @@
 						<div role="tabpanel" class="tab-pane fade in active" id="expeditions" aria-labelledby="expeditions-tab">
 							<div class="agile-tp">
 								<h5>Penawaran Terbaik Minggu Ini
-								
+								<?php
+								if(!isset($_SESSION['name'])){
+									
+								} else {
+									echo 'Untukmu, '.$_SESSION['name'].'!';
+								}
+								?>
 								</h5>
 								</div>
 							<div class="agile_top_brands_grids">
 							
-							
+							<?php 
+											$brgs=mysqli_query($conn,"SELECT * from produk order by idproduk ASC");
+											$no=1;
+											while($p=mysqli_fetch_array($brgs)){
+
+												?>
 								<div class="col-md-4 top_brand_left">
 									<div class="hover14 column">
 										<div class="agile_top_brand_left_grid">
@@ -168,96 +208,34 @@
 												<figure>
 													<div class="snipcart-item block" >
 														<div class="snipcart-thumb">
-															<a href="product.php?idproduk="><img title=" " alt=" " src="gambarproduk/bucket1.jpg" width="200px" height="200px" /></a>		
-															<p></p>
+															<a href="product.php?idproduk=<?php echo $p['idproduk'] ?>"><img title=" " alt=" " src="<?php echo $p['gambar']?>" width="200px" height="200px" /></a>		
+															<p><?php echo $p['namaproduk'] ?></p>
 															<div class="stars">
+															<?php
+															$bintang = '<i class="fa fa-star blue-star" aria-hidden="true"></i>';
+															$rate = $p['rate'];
 															
+															for($n=1;$n<=$rate;$n++){
+																echo '<i class="fa fa-star blue-star" aria-hidden="true"></i>';
+															};
+															?>
 															</div>
-															<h4>Rp 30.000 <span>Rp25.000</span></h4>
+															<h4>Rp<?php echo number_format($p['hargaafter']) ?> <span>Rp<?php echo number_format($p['hargabefore']) ?></span></h4>
 														</div>
-									
 														<div class="snipcart-details top_brand_home_details">
 																<fieldset>
-																	<a href="product.php?idproduk="><input type="submit" class="button" value="Lihat Produk" /></a>
+																	<a href="product.php?idproduk=<?php echo $p['idproduk'] ?>"><input type="submit" class="button" value="Lihat Produk" /></a>
 																</fieldset>
 														</div>
 													</div>
 												</figure>
-												
 											</div>
-										
 										</div>
-
-										
 									</div>
 								</div>
-								<div class="col-md-4 top_brand_left">
-									<div class="hover14 column">
-										<div class="agile_top_brand_left_grid">
-											<div class="agile_top_brand_left_grid_pos">
-												<img src="images/offer.png" alt=" " class="img-responsive" />
-											</div>
-											<div class="agile_top_brand_left_grid1">
-												<figure>
-													<div class="snipcart-item block" >
-														<div class="snipcart-thumb">
-															<a href="product.php?idproduk="><img title=" " alt=" " src="gambarproduk/bucket2.jpg" width="200px" height="200px" /></a>		
-															<p></p>
-															<div class="stars">
-															
-															</div>
-															<h4>Rp 25.000 <span>Rp20.000</span></h4>
-														</div>
-									
-														<div class="snipcart-details top_brand_home_details">
-																<fieldset>
-																	<a href="product.php?idproduk="><input type="submit" class="button" value="Lihat Produk" /></a>
-																</fieldset>
-														</div>
-													</div>
-												</figure>
-												
-											</div>
-										
-										</div>
-
-										
-									</div>
-								</div>
-								<div class="col-md-4 top_brand_left">
-									<div class="hover14 column">
-										<div class="agile_top_brand_left_grid">
-											<div class="agile_top_brand_left_grid_pos">
-												<img src="images/offer.png" alt=" " class="img-responsive" />
-											</div>
-											<div class="agile_top_brand_left_grid1">
-												<figure>
-													<div class="snipcart-item block" >
-														<div class="snipcart-thumb">
-															<a href="product.php?idproduk="><img title=" " alt=" " src="gambarproduk/bucket3.jpg" width="200px" height="200px" /></a>		
-															<p></p>
-															<div class="stars">
-															
-															</div>
-															<h4>Rp 50.000 <span>Rp45.000</span></h4>
-														</div>
-									
-														<div class="snipcart-details top_brand_home_details">
-																<fieldset>
-																	<a href="product.php?idproduk="><input type="submit" class="button" value="Lihat Produk" /></a>
-																</fieldset>
-														</div>
-													</div>
-												</figure>
-												
-											</div>
-										
-										</div>
-
-										
-									</div>
-								</div>
-								
+								<?php
+											}
+								?>
 								
 								
 								<div class="clearfix"> </div>
