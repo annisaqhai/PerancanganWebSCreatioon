@@ -82,9 +82,9 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`idkategori`, `namakategori`, `tgldibuat`) VALUES
-(1, 'Bucket Biasa', '2019-12-20 07:28:34'),
-(2, 'Bunga kecil', '2019-12-20 07:34:17'),
-(3, 'Bunga Besar', '2020-03-16 12:15:40');
+(1, 'Bucket Snack Biasa', '2022-06-24 07:28:34'),
+(2, 'Bucket Snack Kecil', '2022-06-24 07:34:17'),
+(3, 'Bucket Snack Besar', '2022-06-24 12:15:40');
 
 -- --------------------------------------------------------
 
@@ -181,9 +181,9 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`idproduk`, `idkategori`, `namaproduk`, `gambar`, `deskripsi`, `rate`, `hargabefore`, `hargaafter`, `tgldibuat`) VALUES
-(1, 1, 'Bucket Biasa Putih Gold Line', 'gambarproduk/bucket1.jpg', 'Setangkai mawar merah', 5, 23000, 19000, '2019-12-20 09:10:26'),
-(2, 1, 'bucket Kecil ', 'gambarproduk/bucket2.jpg', 'Setangkai mawar putih', 4, 24000, 19500, '2019-12-20 09:24:13'),
-(3, 3, 'Bunga Besar', 'gambarproduk/bucket3.jpg', 'Bunga Hidup', 5, 25000, 15000, '2020-03-16 12:16:53');
+(1, 1, 'Bucket Snack Biasa', 'gambarproduk/bucket1.jpg', 'Bucket yang berisikan snack dan berukutan 40x25 cm', 5, 30000, 25000, '2022-06-24 09:10:26'),
+(2, 1, 'Bucket Snack Kecil', 'gambarproduk/bucket2.jpg', 'Bucket yang berisikan snack dan berukutan 30x15 cm', 4, 20000, 15000, '2022-06-24 09:24:13'),
+(3, 3, 'Bunga Snack Besar', 'gambarproduk/bucket3.jpg', 'Bucket yang berisikan snack dan berukutan 50x25 cm', 5, 50000, 45000, '2022-06-24 12:16:53');
 
 --
 -- Indexes for dumped tables
