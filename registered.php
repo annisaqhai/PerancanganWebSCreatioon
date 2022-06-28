@@ -1,3 +1,37 @@
+<?php
+session_start();
+if(!isset($_SESSION['log'])){
+	
+} else {
+	header('location:index.php');
+};
+include 'dbconnect.php';
+
+if(isset($_POST['adduser']))
+	{
+		$nama = $_POST['nama'];
+		$telp = $_POST['telp'];
+		$alamat = $_POST['alamat'];
+		$email = $_POST['email'];
+		$pass = password_hash($_POST['pass'], PASSWORD_DEFAULT); 
+			  
+		$tambahuser = mysqli_query($conn,"insert into login (namalengkap, email, password, notelp, alamat) 
+		values('$nama','$email','$pass','$telp','$alamat')");
+		if ($tambahuser){
+		echo " <div class='alert alert-success'>
+			Berhasil mendaftar, silakan masuk.
+		  </div>
+		<meta http-equiv='refresh' content='1; url= login.php'/>  ";
+		} else { echo "<div class='alert alert-warning'>
+			Gagal mendaftar, silakan coba lagi.
+		  </div>
+		 <meta http-equiv='refresh' content='1; url= registered.php'/> ";
+		}
+		
+	};
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,10 +141,16 @@
 													<ul class="multi-column-dropdown">
 														<h6>Kategori</h6>
 														
-														
-														<li><a href="kategori.php?idkategori="></a></li>
+														<?php 
+														$kat=mysqli_query($conn,"SELECT * from kategori order by idkategori ASC");
+														while($p=mysqli_fetch_array($kat)){
+
+															?>
+														<li><a href="kategori.php?idkategori=<?php echo $p['idkategori'] ?>"><?php echo $p['namakategori'] ?></a></li>
 																				
-														
+														<?php
+																	}
+														?>
 													</ul>
 												</div>	
 												
